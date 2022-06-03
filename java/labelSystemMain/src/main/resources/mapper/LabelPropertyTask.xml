@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcl.dao.LabelPropertyTaskDao">
+	
+	<resultMap id="BaseResultMap" type="com.pcl.pojo.mybatis.LabelPropertyTask" >
+		<result column="id" property="id"/>
+		<result column="task_name" property="task_name"/>
+		<result column="task_type" property="task_type"/>
+		<result column="task_desc" property="task_desc"/>
+		<result column="propertyJson" property="propertyJson"/>
+		<result column="user_id" property="user_id"/>
+		<result column="assign_user_id" property="assign_user_id"/>
+		<result column="task_add_time" property="task_add_time"/>
+	</resultMap>
+  
+    <select id="queryLabelPropertyTask" resultMap="BaseResultMap" parameterType="Map">    
+        SELECT * FROM tasks_labelpropertytask 
+         <if test="user_id !=null and user_id !=''">
+           where user_id = #{user_id} or task_type='1'
+        </if>
+        order by task_add_time desc limit #{currPage}, #{pageSize}
+    </select>  
+    
+    <select id="queryAllLabelPropertyTask" resultMap="BaseResultMap" parameterType="Map">    
+        SELECT id,task_name FROM tasks_labelpropertytask 
+         <if test="user_id !=null and user_id !=''">
+           where user_id = #{user_id} or task_type='1'
+        </if>
+        order by task_add_time desc 
+    </select>
+    
+    
+      <select id="queryLabelPropertyTaskById" resultMap="BaseResultMap" parameterType="String">    
+        SELECT * FROM tasks_labelpropertytask where id=#{id}
+    </select>  
+    
+
+     <select id="queryLabelPropertyTaskCount" resultType="java.lang.Integer" parameterType="Map">    
+        SELECT count(1) FROM tasks_labelpropertytask
+         <if test="user_id !=null and user_id !=''">
+           where user_id = #{user_id} or task_type='1'
+        </if>
+     </select>  
+     
+     <delete id="deleteLabelPropertyTaskById" parameterType="String">    
+        delete FROM tasks_labelpropertytask where id=#{id}
+     </delete>  
+    
+    <insert id="addLabelPropertyTask"  parameterType="com.pcl.pojo.mybatis.LabelPropertyTask">
+        insert into tasks_labelpropertytask(id,task_name,task_type,task_desc,propertyJson,user_id,assign_user_id,task_add_time)
+         values (#{id}, #{task_name},#{task_type},#{task_desc},#{propertyJson},#{user_id},#{assign_user_id},#{task_add_time})
+    </insert>
+    
+    <update id="updateLabelPropertyTask" parameterType="Map">
+       update tasks_labelpropertytask set 
+       <if test="task_name !=null">
+           task_name = #{task_name},
+       </if>
+       <if test="propertyJson !=null">
+           propertyJson = #{propertyJson},
+       </if>
+        <if test="task_add_time !=null">
+           task_add_time = #{task_add_time},
+       </if>
+       task_type= #{task_type} where id= #{id}
+   </update>
+    
+</mapper>

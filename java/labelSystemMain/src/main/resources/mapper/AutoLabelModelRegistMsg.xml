@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcl.dao.AutoLabelModelRegistMsgDao">
+	
+
+	<resultMap id="BaseResultMap" type="com.pcl.pojo.mybatis.AutoLabelModelRegistMsg" >
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="model_desc" property="model_desc"/>
+		<result column="model_type" property="model_type"/>
+		<result column="object_type" property="object_type"/>
+		<result column="agent_receive_task_url" property="agent_receive_task_url"/>
+		<result column="status" property="status"/>
+		
+	</resultMap>
+  
+
+  	<insert id="saveAutoLabelModelRegistMsg"  parameterType="com.pcl.pojo.mybatis.AutoLabelModelRegistMsg">
+        insert into regist_auto_model(id,name,model_desc,model_type,object_type,agent_receive_task_url,status)
+         values (#{id},#{name},#{model_desc},#{model_type},#{object_type},#{agent_receive_task_url},#{status})
+    </insert>
+    
+    <delete id="deleteAutoLabelModelRegistMsg" parameterType="int">
+        DELETE  FROM regist_auto_model WHERE id=#{id}
+    </delete>
+
+
+ 	<update id="updateAutoLabelModelRegistMsg" parameterType="Map">
+       update regist_auto_model set status=#{status} where id=#{id}
+   </update>  
+
+    <select id="queryAll" resultMap="BaseResultMap">    
+        SELECT * FROM regist_auto_model
+    </select>  
+    
+    <select id="queryAllOnLine" resultMap="BaseResultMap">    
+        SELECT * FROM regist_auto_model where status=0
+    </select>  
+    
+     <select id="queryById" resultMap="BaseResultMap"  parameterType="int">    
+        SELECT * FROM regist_auto_model where id=#{id}
+    </select>
+    
+     <select id="queryByName" resultMap="BaseResultMap"  parameterType="String">    
+        SELECT * FROM regist_auto_model where name=#{name}
+    </select>
+ 
+     
+</mapper>
